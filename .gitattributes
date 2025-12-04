@@ -1,0 +1,2 @@
+# Track all .pth files (PyTorch checkpoints) with Git LFS
+*.pth filter=lfs diff=lfs merge=lfs -text

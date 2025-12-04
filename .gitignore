@@ -6,7 +6,7 @@ data/val/
 *.csv
 
 # Model Checkpoints
-checkpoints/
+# checkpoints/  # Committed to repository
 
 # Results (keep structure, ignore large files)
 results/**/*.png
