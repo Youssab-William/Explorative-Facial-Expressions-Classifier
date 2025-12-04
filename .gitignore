@@ -1,0 +1,69 @@
+# Data
+data/train/
+data/test/
+data/val/
+*.zip
+*.csv
+
+# Model Checkpoints
+checkpoints/
+
+# Results (keep structure, ignore large files)
+results/**/*.png
+results/**/*.jpg
+results/**/*.csv
+!results/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Kaggle
+.kaggle/kaggle.json
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Documentation files (except README.md)
+*.md
+!README.md
+
+# Demo directory
+demo/
+
+# Training monitoring files
+train_*.out
+train_*.err
+retrain_*.out
+retrain_*.err
+
+# Test scripts
+test_imports.py
+

@@ -1,0 +1,30 @@
+# Core Deep Learning
+torch>=2.0.0
+torchvision>=0.15.0
+timm>=0.9.0                # For ViT
+
+# Data Processing
+albumentations>=1.3.0       # For augmentation
+opencv-python-headless>=4.8.0  # Headless version (no GUI dependencies, better for HPC)
+Pillow>=10.0.0
+
+# Visualization & Analysis
+grad-cam>=1.4.0             # For attention visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Metrics & Evaluation
+scikit-learn>=1.3.0         # For metrics
+
+# Demo Interface
+gradio>=4.0.0               # For demo interface
+
+# Data Download
+kaggle>=1.5.0               # For dataset download
+
+# Utilities
+tqdm>=4.66.0                # Progress bars
+pyyaml>=6.0                 # Config files
+
