@@ -89,15 +89,17 @@ This will generate confusion matrices, per-class metrics, and comparison plots i
 
 ```
 Explorative-Facial-Expressions-Classifier/
-├── data/                    # FER2013 dataset
+├── data/                    # FER2013 dataset (created after download)
 │   ├── train/              # Training images
 │   ├── test/               # Test images
 │   └── val/                # Validation images
 ├── models/                  # Model architectures
+│   ├── __init__.py
 │   ├── baseline_cnn.py
 │   ├── attention_cnn.py
 │   └── vit_tiny.py
 ├── utils/                   # Utility functions
+│   ├── __init__.py
 │   ├── dataset.py          # Data loading
 │   ├── augmentation.py     # Data augmentation
 │   ├── metrics.py          # Evaluation metrics
@@ -105,24 +107,32 @@ Explorative-Facial-Expressions-Classifier/
 ├── scripts/                 # Main execution scripts
 │   ├── create_val_split.py # Create validation split
 │   ├── train.py            # Training script
-│   └── evaluate.py         # Evaluation script
+│   ├── train_improved.py   # Improved training script
+│   ├── evaluate.py         # Evaluation script
+│   ├── setup_data.py       # Dataset setup (legacy)
+│   ├── run_setup.sh        # Setup script
+│   └── download_checkpoints.sh # Download checkpoints script
 ├── checkpoints/             # Saved model weights
-├── results/                 # Evaluation outputs
-│   ├── confusion_matrices/
-│   ├── attention_maps/
-│   └── comparison_plots/
-├── demo/                    # Gradio demo interface
-│   └── gradio_app.py
+│   ├── baseline_cnn_best.pth
+│   ├── baseline_cnn_history.json
+│   ├── attention_cnn_best.pth
+│   ├── attention_cnn_history.json
+│   ├── vit_tiny_best.pth
+│   └── vit_tiny_history.json
 ├── emoji_mirror/            # Streamlit interface (work in progress)
 │   ├── app.py              # Streamlit main application
-│   ├── src/
-│   │   ├── model_loader.py  # Model loading utilities
-│   │   ├── image_processor.py # Image preprocessing
-│   │   └── face_detector.py   # Face detection
+│   ├── README.md           # Emoji mirror documentation
+│   ├── requirements.txt    # Dependencies for emoji mirror
 │   ├── run_app.sh          # Wrapper script for running
-│   └── requirements.txt
-├── requirements.txt
-└── README.md
+│   └── src/
+│       ├── __init__.py
+│       ├── model_loader.py  # Model loading utilities
+│       ├── image_processor.py # Image preprocessing
+│       └── face_detector.py   # Face detection
+├── CHECKPOINTS.md           # Documentation for checkpoint management
+├── requirements.txt         # Main project dependencies
+├── train_gpu.sbatch         # SLURM script for GPU training
+└── README.md                # This file
 ```
 
 ## Model Architectures
