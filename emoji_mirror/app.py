@@ -5,9 +5,29 @@ This Streamlit app uses your trained emotion detection model to detect
 facial expressions from webcam feed and display the corresponding emoji.
 """
 
+# CRITICAL: Set temp directory BEFORE any other imports
+# This must happen before torch/dill imports that use tempfile
 import os
 import sys
 from pathlib import Path
+
+# Set custom temporary directory - use project directory as fallback
+project_temp = Path(__file__).parent.parent / '.tmp'
+try:
+    project_temp.mkdir(exist_ok=True, mode=0o755)
+    # Set environment variables for temp directory
+    os.environ['TMPDIR'] = str(project_temp)
+    os.environ['TMP'] = str(project_temp)
+    os.environ['TEMP'] = str(project_temp)
+    # Also set for tempfile module
+    import tempfile
+    tempfile.tempdir = str(project_temp)
+except (OSError, PermissionError):
+    # If we can't create the directory, try to use it anyway if it exists
+    if project_temp.exists():
+        os.environ['TMPDIR'] = str(project_temp)
+        os.environ['TMP'] = str(project_temp)
+        os.environ['TEMP'] = str(project_temp)
 import streamlit as st
 import cv2
 import numpy as np
@@ -15,7 +35,13 @@ from PIL import Image
 import time
 
 # Add project root to path (for models and utils)
-project_root = Path(__file__).parent.parent
+# __file__ is emoji_mirror/app.py, so we need to go up 2 levels to get project root
+# Use resolve() to ensure we get absolute paths
+_app_file = Path(__file__).resolve()
+# app.py is in emoji_mirror/, so:
+# parent = emoji_mirror/
+# parent.parent = project root (Explorative-Facial-Expressions-Classifier)
+project_root = _app_file.parent.parent
 sys.path.insert(0, str(project_root))
 
 # Import from src (relative to emoji_mirror directory)
@@ -77,8 +103,24 @@ st.markdown("""
 def load_emotion_model(model_name: str = 'vit_tiny'):
     """Load emotion detection model (cached)."""
     try:
-        # Checkpoint directory is relative to project root
-        checkpoint_dir = project_root / 'checkpoints'
+        # Use absolute path to avoid any path resolution issues
+        checkpoint_dir = (project_root / 'checkpoints').resolve()
+        expected_path = checkpoint_dir / f'{model_name}_best.pth'
+        
+        # Debug output (will show in terminal, not in Streamlit UI)
+        print(f"DEBUG: Project root: {project_root.resolve()}")
+        print(f"DEBUG: Checkpoint dir: {checkpoint_dir}")
+        print(f"DEBUG: Expected checkpoint: {expected_path}")
+        print(f"DEBUG: Checkpoint exists: {expected_path.exists()}")
+        
+        if not expected_path.exists():
+            # List available files for debugging
+            if checkpoint_dir.exists():
+                available = list(checkpoint_dir.glob("*.pth"))
+                available_names = [f.name for f in available]
+                print(f"DEBUG: Available checkpoints: {available_names}")
+                st.warning(f"Checkpoint {model_name}_best.pth not found. Available: {', '.join(available_names)}")
+        
         model = EmotionModel(model_name=model_name, checkpoint_dir=str(checkpoint_dir))
         return model
     except Exception as e:
@@ -99,7 +141,7 @@ def main():
         st.header("⚙️ Settings")
         
         # Model selection
-        model_options = ['vit_tiny', 'attention_cnn', 'hybrid_transformer', 'ensemble', 'baseline_cnn', 'multiscale']
+        model_options = ['vit_tiny', 'attention_cnn', 'baseline_cnn']
         selected_model = st.selectbox(
             "Select Model",
             options=model_options,

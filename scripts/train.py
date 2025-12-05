@@ -49,19 +49,6 @@ MODEL_CONFIGS = {
         'lr': 0.001,
         'patience': 10,
     },
-    'multiscale': {
-        'lr': 0.001,
-        'patience': 10,
-    },
-    'hybrid_transformer': {
-        'lr': 0.0001,  # 10x lower for large model
-        'patience': 20,  # More patience for complex model
-        'warmup_epochs': 5,  # Learning rate warmup
-    },
-    'ensemble': {
-        'lr': 0.001,
-        'patience': 10,  # Same as original (didn't early stop, but architecture was broken)
-    },
     'vit_tiny': {
         'lr': 0.00005,  # Very low for pretrained model
         'patience': 20,  # More patience

@@ -29,13 +29,13 @@ class EmotionModel:
         self.model_name = model_name
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         
-        # Set checkpoint directory
+        # Set checkpoint directory - use absolute paths
         if checkpoint_dir is None:
-            checkpoint_dir = project_root / 'checkpoints'
+            checkpoint_dir = (project_root / 'checkpoints').resolve()
         else:
-            checkpoint_dir = Path(checkpoint_dir)
+            checkpoint_dir = Path(checkpoint_dir).resolve()
         
-        self.checkpoint_path = checkpoint_dir / f'{model_name}_best.pth'
+        self.checkpoint_path = (checkpoint_dir / f'{model_name}_best.pth').resolve()
         
         # Load model
         self.model = None
@@ -43,11 +43,27 @@ class EmotionModel:
     
     def _load_model(self):
         """Load model from checkpoint."""
+        # Debug: print paths for troubleshooting
+        print(f"DEBUG: Looking for checkpoint at: {self.checkpoint_path}")
+        print(f"DEBUG: Absolute path: {self.checkpoint_path.absolute()}")
+        print(f"DEBUG: Checkpoint dir exists: {self.checkpoint_path.parent.exists()}")
+        print(f"DEBUG: Checkpoint dir: {self.checkpoint_path.parent}")
+        
         if not self.checkpoint_path.exists():
-            raise FileNotFoundError(
-                f"Checkpoint not found: {self.checkpoint_path}\n"
-                f"Please train the model first or check the checkpoint directory."
-            )
+            # List available files in checkpoint directory for debugging
+            if self.checkpoint_path.parent.exists():
+                available = list(self.checkpoint_path.parent.glob("*.pth"))
+                available_str = ", ".join([f.name for f in available]) if available else "none"
+                raise FileNotFoundError(
+                    f"Checkpoint not found: {self.checkpoint_path}\n"
+                    f"Please train the model first or check the checkpoint directory.\n"
+                    f"Available checkpoints: {available_str}"
+                )
+            else:
+                raise FileNotFoundError(
+                    f"Checkpoint directory not found: {self.checkpoint_path.parent}\n"
+                    f"Please train the model first or check the checkpoint directory."
+                )
         
         print(f"Loading {self.model_name} from {self.checkpoint_path}...")
         

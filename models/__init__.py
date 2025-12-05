@@ -4,17 +4,11 @@ Model architectures for facial expression classification.
 
 from .baseline_cnn import BaselineCNN
 from .attention_cnn import AttentionCNN
-from .multiscale_fusion import MultiScaleFusion
-from .hybrid_transformer import HybridCNNTransformer
-from .ensemble import EnsembleSpecialists
 from .vit_tiny import ViTTiny
 
 __all__ = [
     'BaselineCNN',
     'AttentionCNN',
-    'MultiScaleFusion',
-    'HybridCNNTransformer',
-    'EnsembleSpecialists',
     'ViTTiny',
 ]
 
@@ -22,9 +16,6 @@ __all__ = [
 MODEL_REGISTRY = {
     'baseline_cnn': BaselineCNN,
     'attention_cnn': AttentionCNN,
-    'multiscale': MultiScaleFusion,
-    'hybrid_transformer': HybridCNNTransformer,
-    'ensemble': EnsembleSpecialists,
     'vit_tiny': ViTTiny,
 }
 

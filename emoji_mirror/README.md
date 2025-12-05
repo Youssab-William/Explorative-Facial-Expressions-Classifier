@@ -57,10 +57,7 @@ emoji_mirror/
 Choose from available trained models:
 - `vit_tiny` (default, 69.85% accuracy) ⭐ Recommended
 - `attention_cnn` (62.56% accuracy)
-- `hybrid_transformer` (55.71% accuracy)
-- `ensemble` (53.15% accuracy)
 - `baseline_cnn` (52.03% accuracy)
-- `multiscale` (50.25% accuracy)
 
 ### Settings
 - **Face Detection**: Automatically crop to face region

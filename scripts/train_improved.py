@@ -33,13 +33,6 @@ from utils.visualization import plot_training_curves
 
 # Model-specific configurations
 MODEL_CONFIGS = {
-    'hybrid_transformer': {
-        'lr': 0.0001,  # Lower LR for large model
-        'warmup_epochs': 5,
-        'patience': 15,
-        'grad_accumulation': 2,
-        'weight_decay': 0.0001,
-    },
     'vit_tiny': {
         'lr': 0.00005,  # Very low for pretrained
         'warmup_epochs': 5,
